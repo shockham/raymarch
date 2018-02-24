@@ -32,7 +32,7 @@ float iter_box(vec3 p, float init_d) {
    float d = init_d;
 
    float s = 1.0;
-   for(int m=0; m<5; m++) {
+   for(int m=0; m<4; m++) {
       vec3 a = mod( p*s, 2.0 )-1.0;
       s *= 3.0;
       vec3 r = abs(1.0 - 3.0*abs(a));
@@ -83,8 +83,8 @@ float scene(vec3 p) {
 
     u = sub(box(p + vec3(0.0, -3.5, 0.0), vec3(2.0, 2.0, 2.0)) + disp(p, 5.0), u);
 
-    vec3 ib_pos = p + vec3(0.0, 0.0, 3.0);
-    u = union(iter_box(ib_pos, sphere(ib_pos, 1.0)), u);
+    vec3 ib_pos = p + vec3(0.0, 0.0, 3.0 * sin(time));
+    u = smin(iter_box(ib_pos, sphere(ib_pos, 1.0)), u, 0.2);
 
     u = union(plane(p - vec3(0.0, -3.0, 0.0)), u);
 
