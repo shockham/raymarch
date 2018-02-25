@@ -168,6 +168,10 @@ float calc_AO(vec3 pos, vec3 nor) {
     return clamp( 1.0 - 3.0*occ, 0.0, 1.0 );
 }
 
+float rand(vec2 co){
+    return fract(sin(dot(co.xy ,vec2(12.9898,78.233))) * 43758.5453);
+}
+
 vec3 lighting(vec3 k_a, vec3 k_d, vec3 k_s, float alpha, vec3 p, vec3 eye) {
     const vec3 ambientLight = 0.5 * vec3(1.0, 1.0, 1.0);
     vec3 color = ambientLight * k_a;
@@ -193,6 +197,9 @@ vec3 lighting(vec3 k_a, vec3 k_d, vec3 k_s, float alpha, vec3 p, vec3 eye) {
                                   light2Pos,
                                   light2Intensity);
     color = mix(color,  color * soft_shadow(p, normalize(light2Pos), 0.02, 5.0, 8.0), 0.5);*/
+
+    color = mix(color, vec3(rand(v_tex_coords * time)), 0.1);
+
     return color;
 }
 
