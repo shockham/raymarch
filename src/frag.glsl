@@ -48,6 +48,10 @@ float iter_box(vec3 p, float init_d) {
    return d;
 }
 
+float terrain(vec3 p) {
+    return p.y - (1.0 + sin(p.x)*sin(p.z)) / 2.0;
+}
+
 float union(float d1, float d2) {
     return min(d1,d2);
 }
@@ -86,7 +90,7 @@ float scene(vec3 p) {
     vec3 ib_pos = p + vec3(0.0, 0.0, 3.0 * sin(time));
     u = smin(iter_box(ib_pos, sphere(ib_pos, 1.0)), u, 0.2);
 
-    u = union(plane(p - vec3(0.0, -3.0, 0.0)), u);
+    u = union(terrain(p - vec3(0.0, -3.0, 0.0)), u);
 
     return u;
 }
